@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arthur Trello</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+:root{
+  --bg:#F7F6F2;
+  --surface:#FFFFFF;
+  --surface-2:#F1F0EB;
+  --border:#E8E6DF;
+  --border-2:#D9D6CC;
+  --text:#14130F;
+  --text-2:#3A3831;
+  --text-dim:#6B6858;
+  --text-mute:#9B9889;
+  --accent:#5B4BFF;
+  --accent-soft:#EEEBFF;
+  --alta:#E5484D;
+  --media:#F5A524;
+  --baixa:#8F8C7E;
+  --ok:#17A673;
+  --shadow-sm:0 1px 2px rgba(20,19,15,.04);
+  --shadow:0 2px 8px rgba(20,19,15,.06);
+  --shadow-md:0 8px 24px rgba(20,19,15,.08);
+  --shadow-lg:0 20px 50px rgba(20,19,15,.15);
+  --d-bg:#0A0A0F;
+  --d-bg-2:#0F0F18;
+  --d-surface:rgba(255,255,255,.04);
+  --d-border:rgba(255,255,255,.08);
+  --d-border-2:rgba(255,255,255,.14);
+  --d-text:#F5F5F7;
+  --d-text-2:#B8B8C2;
+  --d-text-dim:#7A7A88;
+  --d-text-mute:#4A4A56;
+  --grad:linear-gradient(135deg,#8B5CF6 0%,#5B4BFF 50%,#06B6D4 100%);
+}
+*{box-sizing:border-box;}
+html,body{height:100%;}
+body{
+  margin:0;font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);
+  font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+  transition:background .35s ease, color .35s ease;
+}
+h1,h2,h3,h4{margin:0;letter-spacing:-.025em;}
+button,input,textarea,select{font-family:inherit;}
+
+body.on-home{background:var(--d-bg);color:var(--d-text);}
+body.on-home .sidebar{background:var(--d-bg-2);border-right-color:var(--d-border);}
+body.on-home .brand-logo{background:var(--grad);}
+body.on-home .nav-btn{color:var(--d-text-2);}
+body.on-home .nav-btn i{color:var(--d-text-dim);}
+body.on-home .nav-btn:hover{background:rgba(255,255,255,.05);color:var(--d-text);}
+body.on-home .nav-btn.active{background:rgba(139,92,246,.15);color:#C4B5FD;}
+body.on-home .nav-btn.active i{color:#C4B5FD;}
+body.on-home .sidebar-foot{border-top-color:var(--d-border);color:var(--d-text-dim);}
+body.on-home .topbar{border-bottom-color:var(--d-border);}
+body.on-home .topbar h1{color:var(--d-text);}
+body.on-home .topbar p{color:var(--d-text-dim);}
+body.on-home .btn{background:rgba(255,255,255,.05);border-color:var(--d-border-2);color:var(--d-text-2);}
+body.on-home .btn:hover{background:rgba(255,255,255,.10);color:var(--d-text);}
+body.on-home .btn.primary{background:#fff;border-color:#fff;color:#0A0A0F;}
+
+.app{display:flex;min-height:100vh;}
+.sidebar{
+  width:72px;flex-shrink:0;background:var(--surface);
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;align-items:center;
+  padding:20px 0;transition:all .35s ease;
+  position:sticky;top:0;height:100vh;
+}
+.brand{display:flex;flex-direction:column;align-items:center;gap:6px;margin-bottom:26px;}
+.brand-logo{
+  width:40px;height:40px;border-radius:11px;background:var(--grad);
+  display:flex;align-items:center;justify-content:center;color:#fff;
+  font-weight:800;font-size:17px;letter-spacing:-.04em;
+  box-shadow:0 8px 20px rgba(91,75,255,.35);
+}
+.brand-name,.brand-sub{display:none;}
+
+.nav{display:flex;flex-direction:column;gap:6px;width:100%;align-items:center;}
+.nav-btn{
+  width:48px;height:48px;border-radius:12px;background:transparent;border:none;
+  color:var(--text-dim);cursor:pointer;transition:all .15s;
+  display:flex;align-items:center;justify-content:center;position:relative;
+}
+.nav-btn i{font-size:22px;color:inherit;}
+.nav-btn span{display:none;}
+.nav-btn:hover{background:var(--surface-2);color:var(--accent);}
+.nav-btn.active{background:var(--accent-soft);color:var(--accent);}
+.nav-btn.active::before{
+  content:'';position:absolute;left:-14px;top:50%;transform:translateY(-50%);
+  width:3px;height:22px;background:var(--accent);border-radius:0 3px 3px 0;
+}
+.sidebar-foot{
+  margin-top:auto;font-size:10px;color:var(--text-mute);writing-mode:vertical-rl;
+  transform:rotate(180deg);padding:12px 0;letter-spacing:.5px;
+}
+
+.main{flex:1;padding:32px 40px 60px;min-width:0;}
+.topbar{
+  display:flex;align-items:flex-end;justify-content:space-between;gap:16px;
+  margin-bottom:28px;flex-wrap:wrap;padding-bottom:20px;
+  border-bottom:1px solid var(--border);transition:border-color .35s;
+}
+.topbar h1{font-size:26px;font-weight:700;letter-spacing:-.03em;}
+.topbar p{margin:4px 0 0;color:var(--text-dim);font-size:13.5px;}
+.topbar-actions{display:flex;gap:8px;align-items:center;}
+
+.btn{
+  display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:10px;
+  border:1px solid var(--border-2);background:var(--surface);color:var(--text-2);
+  font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;box-shadow:var(--shadow-sm);
+}
+.btn:hover{background:var(--surface-2);border-color:var(--text-mute);color:var(--text);}
+.btn i{font-size:16px;}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600;box-shadow:0 6px 16px rgba(91,75,255,.25);}
+.btn.primary:hover{background:#4A3CE6;color:#fff;}
+.btn.icon{padding:10px;width:40px;justify-content:center;}
+
+.view{display:none;}
+.view.active{display:block;animation:fade .35s ease;}
+@keyframes fade{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+
+.home-hero{
+  position:relative;background:var(--d-bg-2);
+  border:1px solid var(--d-border);
+  border-radius:24px;padding:56px 56px 48px;margin-bottom:20px;
+  overflow:hidden;
+}
+.home-hero::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(139,92,246,.25), transparent 45%),
+    radial-gradient(circle at 85% 70%, rgba(6,182,212,.20), transparent 50%),
+    radial-gradient(circle at 50% 100%, rgba(91,75,255,.15), transparent 55%);
+  pointer-events:none;
+}
+.home-hero::after{
+  content:'';position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+  background-size:44px 44px;
+  mask-image:radial-gradient(ellipse at center, black 30%, transparent 75%);
+  pointer-events:none;
+}
+.home-hero-inner{position:relative;z-index:1;}
+.home-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  letter-spacing:2px;text-transform:uppercase;color:#C4B5FD;font-weight:600;
+  padding:6px 14px;border:1px solid rgba(196,181,253,.3);border-radius:100px;
+  background:rgba(139,92,246,.10);margin-bottom:22px;
+}
+.home-eyebrow::before{
+  content:'';width:6px;height:6px;border-radius:50%;background:#C4B5FD;
+  box-shadow:0 0 12px #C4B5FD;animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+
+.home-hero h2{
+  font-size:clamp(38px,5.5vw,64px);
+  font-weight:800;line-height:1.02;letter-spacing:-.045em;
+  color:var(--d-text);margin:0 0 18px;max-width:780px;
+}
+.home-hero h2 .grad{
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+}
+.home-hero p{color:var(--d-text-2);font-size:16px;line-height:1.65;max-width:560px;margin:0 0 34px;}
+.home-cta{display:flex;gap:12px;flex-wrap:wrap;}
+.cta-primary{
+  display:inline-flex;align-items:center;gap:10px;padding:14px 24px;
+  background:#fff;color:#0A0A0F;border:none;border-radius:12px;
+  font-weight:600;font-size:14px;cursor:pointer;
+  box-shadow:0 10px 30px rgba(255,255,255,.15);
+  transition:all .18s;
+}
+.cta-primary:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(255,255,255,.22);}
+.cta-primary i{font-size:18px;transition:transform .18s;}
+.cta-primary:hover i{transform:translateX(4px);}
+.cta-secondary{
+  display:inline-flex;align-items:center;gap:10px;padding:14px 24px;
+  background:rgba(255,255,255,.05);color:var(--d-text);border:1px solid var(--d-border-2);
+  border-radius:12px;font-weight:500;font-size:14px;cursor:pointer;transition:all .18s;
+}
+.cta-secondary:hover{background:rgba(255,255,255,.10);}
+.cta-secondary i{font-size:18px;}
+
+.bento{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;margin-bottom:20px;}
+.bento-card{
+  background:var(--d-surface);border:1px solid var(--d-border);
+  border-radius:18px;padding:24px;position:relative;overflow:hidden;
+  backdrop-filter:blur(8px);transition:all .2s;
+}
+.bento-card:hover{border-color:var(--d-border-2);transform:translateY(-2px);}
+.bento-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);
+}
+.bento-label{
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;
+  letter-spacing:1.6px;text-transform:uppercase;color:var(--d-text-dim);
+  font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:8px;
+}
+.bento-label i{font-size:14px;}
+.bento-value{
+  font-size:52px;font-weight:800;line-height:1;
+  letter-spacing:-.045em;color:var(--d-text);font-feature-settings:'tnum';
+}
+.bento-value.purple{color:#A78BFA;}
+.bento-value.amber{color:#FBBF24;}
+.bento-value.green{color:#34D399;}
+.bento-sub{font-size:12.5px;color:var(--d-text-dim);margin-top:10px;}
+
+.bento-card.span-2{grid-column:span 2;}
+.bento-card.span-3{grid-column:span 3;}
+@media (max-width:1100px){
+  .bento{grid-template-columns:repeat(2,1fr);}
+  .bento-card.span-2,.bento-card.span-3{grid-column:span 1;}
+}
+@media (max-width:640px){.bento{grid-template-columns:1fr;}}
+
+.bento-card.progress-card{display:flex;flex-direction:column;justify-content:space-between;}
+.progress-ring-wrap{display:flex;align-items:center;gap:22px;margin-top:8px;}
+.progress-ring{position:relative;width:88px;height:88px;flex-shrink:0;}
+.progress-ring svg{transform:rotate(-90deg);width:100%;height:100%;}
+.progress-ring .track{fill:none;stroke:rgba(255,255,255,.08);stroke-width:8;}
+.progress-ring .bar{fill:none;stroke:url(#ringGrad);stroke-width:8;stroke-linecap:round;transition:stroke-dashoffset 1s cubic-bezier(.4,0,.2,1);}
+.progress-ring .pct{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-size:20px;font-weight:800;color:var(--d-text);
+}
+.progress-legend{flex:1;display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--d-text-dim);}
+.progress-legend .row{display:flex;justify-content:space-between;}
+.progress-legend .row b{color:var(--d-text);}
+
+.home-feed{
+  background:var(--d-surface);border:1px solid var(--d-border);
+  border-radius:18px;padding:24px;backdrop-filter:blur(8px);
+  grid-column:span 6;
+}
+.home-feed-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.home-feed-title{font-size:14px;font-weight:600;color:var(--d-text);display:flex;align-items:center;gap:10px;}
+.home-feed-title i{color:#A78BFA;font-size:17px;}
+.home-feed-count{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--d-text-dim);letter-spacing:1px;}
+.feed-list{display:flex;flex-direction:column;gap:2px;}
+.feed-item{display:flex;gap:14px;padding:12px 14px;border-radius:12px;transition:background .15s;}
+.feed-item:hover{background:rgba(255,255,255,.04);}
+.feed-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--d-text-mute);font-weight:500;min-width:26px;padding-top:2px;}
+.feed-dot{width:7px;height:7px;border-radius:50%;margin-top:7px;flex-shrink:0;}
+.feed-dot.afazer{background:#FBBF24;box-shadow:0 0 8px rgba(251,191,36,.6);}
+.feed-dot.fazendo{background:#A78BFA;box-shadow:0 0 8px rgba(167,139,250,.6);}
+.feed-dot.feito{background:#34D399;box-shadow:0 0 8px rgba(52,211,153,.6);}
+.feed-body{flex:1;min-width:0;}
+.feed-titulo{font-size:13.5px;font-weight:500;color:var(--d-text);}
+.feed-meta{font-size:11.5px;color:var(--d-text-dim);margin-top:3px;font-family:'JetBrains Mono',monospace;}
+
+.board-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px;flex-wrap:wrap;}
+.board-head .info{font-size:13px;color:var(--text-dim);}
+.board-head .info b{color:var(--text);font-weight:700;}
+
+.board{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;align-items:start;}
+@media (max-width:900px){.board{grid-template-columns:1fr;}}
+
+.col{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:18px;padding:18px;min-height:460px;
+  display:flex;flex-direction:column;transition:all .18s;
+  box-shadow:var(--shadow-sm);
+}
+.col.dragover{border-color:var(--accent);background:var(--accent-soft);box-shadow:0 0 0 4px rgba(91,75,255,.08);}
+.col-head{display:flex;align-items:center;justify-content:space-between;padding-bottom:16px;margin-bottom:16px;border-bottom:1px solid var(--border);}
+.col-title{display:flex;align-items:center;gap:10px;font-weight:600;font-size:14.5px;letter-spacing:-.01em;}
+.col-title .dot{width:9px;height:9px;border-radius:50%;position:relative;}
+.col-title .dot::after{content:'';position:absolute;inset:-3px;border-radius:50%;background:inherit;opacity:.25;}
+.col[data-status="A FAZER"] .dot{background:var(--media);}
+.col[data-status="FAZENDO"] .dot{background:var(--accent);}
+.col[data-status="FEITO"] .dot{background:var(--ok);}
+.col[data-status="A FAZER"] .col-count{color:#B47200;background:#FEF3C7;border-color:#FCD34D;}
+.col[data-status="FAZENDO"] .col-count{color:var(--accent);background:var(--accent-soft);border-color:#C7BFFF;}
+.col[data-status="FEITO"] .col-count{color:#0A7B58;background:#D1FAE5;border-color:#6EE7B7;}
+.col-count{
+  font-family:'JetBrains Mono',monospace;font-size:11.5px;font-weight:700;
+  padding:3px 10px;border-radius:100px;border:1px solid;min-width:32px;text-align:center;
+}
+.col-body{display:flex;flex-direction:column;gap:10px;flex:1;min-height:60px;}
+
+.card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:10px;padding:14px;
+  cursor:grab;transition:all .18s cubic-bezier(.4,0,.2,1);
+  box-shadow:var(--shadow-sm);position:relative;overflow:hidden;
+}
+.card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:var(--baixa);opacity:0;transition:opacity .18s;
+}
+.card[data-prio="ALTA"]::before{background:var(--alta);opacity:1;}
+.card[data-prio="MEDIA"]::before{background:var(--media);opacity:1;}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);border-color:var(--border-2);}
+.card.dragging{opacity:.35;transform:rotate(2deg) scale(.96);cursor:grabbing;}
+.card-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px;}
+.card-tag{
+  font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:700;
+  letter-spacing:.6px;text-transform:uppercase;padding:3px 8px;border-radius:100px;
+}
+.card-tag.ALTA{background:#FEE2E2;color:#B91C1C;}
+.card-tag.MEDIA{background:#FEF3C7;color:#B45309;}
+.card-tag.BAIXA{background:#F1F0EB;color:#6B6858;}
+.card-title{font-size:14px;font-weight:600;line-height:1.4;color:var(--text);margin:0 0 6px;word-break:break-word;letter-spacing:-.015em;}
+.card-desc{
+  font-size:12.5px;color:var(--text-dim);line-height:1.55;margin:0 0 10px;
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
+}
+.card-actions{display:flex;gap:6px;margin-top:12px;padding-top:12px;border-top:1px solid var(--border);}
+.card-act{
+  flex:1;display:inline-flex;align-items:center;justify-content:center;gap:5px;
+  padding:7px 10px;border-radius:8px;background:transparent;
+  border:1px solid transparent;color:var(--text-dim);font-size:11.5px;
+  font-weight:600;cursor:pointer;transition:all .15s;
+}
+.card-act:hover{color:var(--accent);background:var(--accent-soft);}
+.card-act.danger{flex:0 0 auto;padding:7px 10px;}
+.card-act.danger:hover{color:var(--alta);background:#FEE2E2;}
+.card-act i{font-size:14px;}
+
+.empty{
+  padding:36px 16px;text-align:center;color:var(--text-mute);
+  font-size:12.5px;border:1px dashed var(--border-2);border-radius:12px;
+}
+.empty i{display:block;font-size:26px;margin-bottom:8px;opacity:.4;}
+
+.col-foot{
+  margin-top:14px;padding-top:14px;border-top:1px solid var(--border);
+  display:flex;flex-direction:column;gap:10px;
+}
+.add-card{
+  padding:10px;border-radius:10px;border:1px dashed var(--border-2);
+  background:transparent;color:var(--text-dim);cursor:pointer;
+  font-size:12.5px;font-weight:600;width:100%;transition:all .15s;
+}
+.add-card:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-soft);}
+.add-card i{margin-right:6px;font-size:14px;}
+
+.pager{display:flex;align-items:center;justify-content:center;gap:4px;font-family:'JetBrains Mono',monospace;}
+.pager.hidden{display:none;}
+.pager-btn{
+  min-width:30px;height:30px;padding:0 8px;border-radius:8px;
+  border:1px solid transparent;background:transparent;color:var(--text-dim);
+  font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;
+  transition:all .13s;
+}
+.pager-btn:hover:not(:disabled):not(.active){background:var(--surface-2);color:var(--text);}
+.pager-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 4px 10px rgba(91,75,255,.25);}
+.pager-btn:disabled{opacity:.35;cursor:not-allowed;}
+.pager-btn.nav{color:var(--text-mute);font-size:14px;}
+.pager-btn.nav:hover:not(:disabled){color:var(--accent);}
+
+.modal-bg{
+  position:fixed;inset:0;background:rgba(10,10,15,.55);backdrop-filter:blur(4px);
+  display:none;align-items:center;justify-content:center;z-index:200;padding:20px;
+}
+.modal-bg.show{display:flex;animation:fade .18s ease;}
+.modal{background:var(--surface);border-radius:20px;width:100%;max-width:540px;box-shadow:var(--shadow-lg);overflow:hidden;}
+.modal-head{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.modal-head h3{font-size:16px;font-weight:600;display:flex;align-items:center;gap:10px;}
+.modal-head h3 i{color:var(--accent);font-size:19px;}
+.modal-close{
+  background:transparent;border:none;color:var(--text-mute);cursor:pointer;
+  font-size:20px;padding:6px;border-radius:8px;transition:all .15s;
+  display:flex;align-items:center;justify-content:center;width:32px;height:32px;
+}
+.modal-close:hover{background:var(--surface-2);color:var(--text);}
+.modal-body{padding:22px 24px;display:flex;flex-direction:column;gap:18px;}
+.field label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:1.2px;color:var(--text-dim);font-weight:700;margin-bottom:8px;}
+.field input,.field textarea,.field select{
+  width:100%;padding:11px 14px;border-radius:10px;border:1px solid var(--border-2);
+  background:var(--surface);color:var(--text);font-size:14px;transition:all .15s;
+}
+.field input:focus,.field textarea:focus,.field select:focus{
+  outline:none;border-color:var(--accent);box-shadow:0 0 0 4px rgba(91,75,255,.12);
+}
+.field textarea{resize:vertical;min-height:90px;line-height:1.55;}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.modal-foot{padding:16px 24px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px;background:var(--surface-2);}
+
+.toasts{position:fixed;bottom:24px;right:24px;display:flex;flex-direction:column;gap:10px;z-index:9999;pointer-events:none;}
+.toast{
+  background:#14130F;border:1px solid rgba(255,255,255,.1);
+  padding:14px 18px;border-radius:12px;box-shadow:var(--shadow-lg);
+  font-size:13px;font-weight:500;color:#fff;
+  display:flex;align-items:center;gap:12px;min-width:260px;max-width:380px;
+  animation:toastIn .25s cubic-bezier(.4,0,.2,1);pointer-events:auto;
+}
+.toast.success{border-left:3px solid var(--ok);}
+.toast.error{border-left:3px solid var(--alta);}
+.toast i{font-size:18px;color:#fff;}
+.toast.success i{color:#34D399;}
+.toast.error i{color:#F87171;}
+@keyframes toastIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+
+.loader{
+  position:fixed;inset:0;background:var(--d-bg);display:flex;
+  align-items:center;justify-content:center;z-index:9999;
+  transition:opacity .4s, visibility .4s;
+}
+.loader.hidden{opacity:0;visibility:hidden;}
+.spinner{
+  width:36px;height:36px;border-radius:50%;
+  border:3px solid rgba(255,255,255,.1);border-top-color:#A78BFA;
+  animation:spin .8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+@media (max-width:760px){
+  .sidebar{
+    position:fixed;bottom:0;left:0;right:0;top:auto;height:auto;width:100%;
+    flex-direction:row;padding:10px 12px;border-right:none;
+    border-top:1px solid var(--border);z-index:100;
+    justify-content:space-around;border-radius:0;
+  }
+  body.on-home .sidebar{border-top-color:var(--d-border);}
+  .brand,.sidebar-foot{display:none;}
+  .nav{flex-direction:row;gap:6px;width:100%;justify-content:space-around;}
+  .nav-btn.active::before{display:none;}
+  .main{padding:20px 16px 100px;}
+  .topbar h1{font-size:22px;}
+  .home-hero{padding:36px 24px;}
+  .bento-value{font-size:40px;}
+}
+</style>
+</head>
+<body>
+
+<div class="loader" id="loader"><div class="spinner"></div></div>
+
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-logo">A</div>
+      <div>
+        <div class="brand-name">Arthur Trello</div>
+        <div class="brand-sub">Pessoal</div>
+      </div>
+    </div>
+    <nav class="nav">
+      <button class="nav-btn active" data-view="home" onclick="go('home')" title="Início"><i class="ti ti-home"></i></button>
+      <button class="nav-btn" data-view="board" onclick="go('board')" title="Quadro"><i class="ti ti-layout-kanban"></i></button>
+    </nav>
+    <div class="sidebar-foot" id="footInfo">arthur · 0</div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <h1 id="pageTitle">Início</h1>
+        <p id="pageSub">Visão geral do seu workspace</p>
+      </div>
+      <div class="topbar-actions">
+        <button class="btn icon" onclick="carregar()" title="Atualizar"><i class="ti ti-refresh"></i></button>
+        <button class="btn primary" onclick="abrirNovo()"><i class="ti ti-plus"></i> Nova tarefa</button>
+      </div>
+    </header>
+
+    <section id="viewHome" class="view active">
+      <div class="home-hero">
+        <div class="home-hero-inner">
+          <div class="home-eyebrow">arthur · workspace pessoal</div>
+          <h2>Arthur, seu fluxo<br><span class="grad">organizado com clareza.</span></h2>
+          <p>Arraste tarefas, defina prioridades e mantenha o foco no que importa. Simples como deve ser.</p>
+          <div class="home-cta">
+            <button class="cta-primary" onclick="go('board')">
+              Abrir quadro <i class="ti ti-arrow-right"></i>
+            </button>
+            <button class="cta-secondary" onclick="abrirNovo()">
+              <i class="ti ti-plus"></i> Nova tarefa
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="bento">
+        <div class="bento-card span-2">
+          <div class="bento-label"><i class="ti ti-clock"></i> A fazer</div>
+          <div class="bento-value amber" id="hAberto">0</div>
+          <div class="bento-sub">tarefas aguardando</div>
+        </div>
+        <div class="bento-card span-2">
+          <div class="bento-label"><i class="ti ti-progress"></i> Fazendo</div>
+          <div class="bento-value purple" id="hFazendo">0</div>
+          <div class="bento-sub">em andamento agora</div>
+        </div>
+        <div class="bento-card span-2">
+          <div class="bento-label"><i class="ti ti-circle-check"></i> Feito</div>
+          <div class="bento-value green" id="hFeito">0</div>
+          <div class="bento-sub">concluídas</div>
+        </div>
+
+        <div class="bento-card span-3 progress-card">
+          <div><div class="bento-label"><i class="ti ti-target"></i> Progresso geral</div></div>
+          <div class="progress-ring-wrap">
+            <div class="progress-ring">
+              <svg viewBox="0 0 100 100">
+                <defs>
+                  <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#8B5CF6"/>
+                    <stop offset="50%" stop-color="#5B4BFF"/>
+                    <stop offset="100%" stop-color="#06B6D4"/>
+                  </linearGradient>
+                </defs>
+                <circle class="track" cx="50" cy="50" r="42"/>
+                <circle class="bar" id="ringBar" cx="50" cy="50" r="42"
+                        stroke-dasharray="263.9" stroke-dashoffset="263.9"/>
+              </svg>
+              <div class="pct" id="ringPct">0%</div>
+            </div>
+            <div class="progress-legend">
+              <div class="row"><span>Concluídas</span><b id="lgFeito">0</b></div>
+              <div class="row"><span>Total</span><b id="lgTotal">0</b></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bento-card span-3">
+          <div class="bento-label"><i class="ti ti-flame"></i> Alta prioridade abertas</div>
+          <div class="bento-value" id="hAlta" style="color:#F87171;">0</div>
+          <div class="bento-sub">requerem atenção</div>
+        </div>
+
+        <div class="home-feed">
+          <div class="home-feed-head">
+            <div class="home-feed-title"><i class="ti ti-activity"></i> Atividade recente</div>
+            <div class="home-feed-count" id="feedCount">0 tarefas</div>
+          </div>
+          <div class="feed-list" id="feed"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="viewBoard" class="view">
+      <div class="board-head">
+        <div class="info">Total: <b id="totalCards">0</b> tarefas</div>
+      </div>
+      <div class="board">
+        <div class="col" data-status="A FAZER" id="colAFAZER">
+          <div class="col-head">
+            <div class="col-title"><span class="dot"></span>A fazer</div>
+            <span class="col-count" id="countAFAZER">0</span>
+          </div>
+          <div class="col-body" id="bodyAFAZER"></div>
+          <div class="col-foot">
+            <button class="add-card" onclick="abrirNovo('A FAZER')"><i class="ti ti-plus"></i> Nova tarefa</button>
+            <div class="pager" id="pagerAFAZER"></div>
+          </div>
+        </div>
+        <div class="col" data-status="FAZENDO" id="colFAZENDO">
+          <div class="col-head">
+            <div class="col-title"><span class="dot"></span>Fazendo</div>
+            <span class="col-count" id="countFAZENDO">0</span>
+          </div>
+          <div class="col-body" id="bodyFAZENDO"></div>
+          <div class="col-foot">
+            <button class="add-card" onclick="abrirNovo('FAZENDO')"><i class="ti ti-plus"></i> Nova tarefa</button>
+            <div class="pager" id="pagerFAZENDO"></div>
+          </div>
+        </div>
+        <div class="col" data-status="FEITO" id="colFEITO">
+          <div class="col-head">
+            <div class="col-title"><span class="dot"></span>Feito</div>
+            <span class="col-count" id="countFEITO">0</span>
+          </div>
+          <div class="col-body" id="bodyFEITO"></div>
+          <div class="col-foot">
+            <button class="add-card" onclick="abrirNovo('FEITO')"><i class="ti ti-plus"></i> Nova tarefa</button>
+            <div class="pager" id="pagerFEITO"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <div class="modal-head">
+      <h3><i class="ti ti-edit" id="modalIcon"></i> <span id="modalTitulo">Nova tarefa</span></h3>
+      <button class="modal-close" onclick="fecharModal()"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="field">
+        <label for="fTitulo">Título *</label>
+        <input type="text" id="fTitulo" placeholder="Ex: Revisar proposta do cliente" maxlength="120">
+      </div>
+      <div class="field">
+        <label for="fDesc">Descrição</label>
+        <textarea id="fDesc" placeholder="Detalhes opcionais..." maxlength="600"></textarea>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label for="fStatus">Status</label>
+          <select id="fStatus">
+            <option value="A FAZER">A fazer</option>
+            <option value="FAZENDO">Fazendo</option>
+            <option value="FEITO">Feito</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="fPrio">Prioridade</label>
+          <select id="fPrio">
+            <option value="BAIXA">Baixa</option>
+            <option value="MEDIA" selected>Média</option>
+            <option value="ALTA">Alta</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn" onclick="fecharModal()">Cancelar</button>
+      <button class="btn primary" id="btnSalvar" onclick="salvar()"><i class="ti ti-check"></i> Salvar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toasts" id="toasts"></div>
+
+<script>
+let tarefas = [];
+let modalLinha = null;
+let cardArrastado = null;
+
+const POR_PAGINA = 8;
+const paginas = { 'A FAZER': 1, 'FAZENDO': 1, 'FEITO': 1 };
+const keyOf = st => st.replace(/\s/g,'');
+
+const SCROLL_ZONE = 150;
+const SCROLL_MAX  = 18;
+let autoScrollRAF = null;
+let scrollSpeed = { y: 0, colEl: null, colSpeed: 0 };
+
+const TITULOS = {
+  home: { t:'Início', s:'Visão geral do seu workspace' },
+  board: { t:'Quadro', s:'Arraste os cards entre as colunas' }
+};
+function go(view){
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.view === view));
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById(view === 'home' ? 'viewHome' : 'viewBoard').classList.add('active');
+  document.getElementById('pageTitle').innerText = TITULOS[view].t;
+  document.getElementById('pageSub').innerText = TITULOS[view].s;
+  document.body.classList.toggle('on-home', view === 'home');
+}
+
+function carregar(){
+  google.script.run
+    .withSuccessHandler(res => {
+      document.getElementById('loader').classList.add('hidden');
+      if (!res || !res.sucesso) { toast('Erro: ' + ((res && res.erro) || 'desconhecido'), 'error'); return; }
+      tarefas = res.tarefas || [];
+      render();
+    })
+    .withFailureHandler(err => {
+      document.getElementById('loader').classList.add('hidden');
+      toast('Falha: ' + err, 'error');
+    })
+    .listarTarefas();
+}
+
+function render(){
+  const porStatus = { 'A FAZER': [], 'FAZENDO': [], 'FEITO': [] };
+  tarefas.forEach(t => { if (porStatus[t.status]) porStatus[t.status].push(t); });
+
+  ['A FAZER','FAZENDO','FEITO'].forEach(st => {
+    const k = keyOf(st);
+    const body = document.getElementById('body' + k);
+    const lista = porStatus[st];
+
+    document.getElementById('count' + k).innerText = lista.length;
+
+    const totalPag = Math.max(1, Math.ceil(lista.length / POR_PAGINA));
+    if (paginas[st] > totalPag) paginas[st] = totalPag;
+    if (paginas[st] < 1) paginas[st] = 1;
+
+    const inicio = (paginas[st] - 1) * POR_PAGINA;
+    const fim = inicio + POR_PAGINA;
+    const visiveis = lista.slice(inicio, fim);
+
+    if (lista.length === 0){
+      body.innerHTML = '<div class="empty"><i class="ti ti-inbox"></i>Sem tarefas</div>';
+    } else {
+      body.innerHTML = visiveis.map(cardHTML).join('');
+    }
+
+    renderPager(st, lista.length, totalPag);
+  });
+
+  document.getElementById('totalCards').innerText = tarefas.length;
+  document.getElementById('footInfo').innerText = 'arthur · ' + tarefas.length;
+
+  const feito = porStatus['FEITO'].length;
+  const total = tarefas.length;
+  const pct = total > 0 ? Math.round((feito / total) * 100) : 0;
+  const altaAberta = tarefas.filter(t => t.prioridade === 'ALTA' && t.status !== 'FEITO').length;
+
+  document.getElementById('hAberto').innerText = porStatus['A FAZER'].length;
+  document.getElementById('hFazendo').innerText = porStatus['FAZENDO'].length;
+  document.getElementById('hFeito').innerText  = feito;
+  document.getElementById('hAlta').innerText   = altaAberta;
+  document.getElementById('lgFeito').innerText = feito;
+  document.getElementById('lgTotal').innerText = total;
+  document.getElementById('feedCount').innerText = total + ' tarefa' + (total === 1 ? '' : 's');
+
+  const C = 2 * Math.PI * 42;
+  const bar = document.getElementById('ringBar');
+  bar.setAttribute('stroke-dasharray', C.toFixed(2));
+  bar.setAttribute('stroke-dashoffset', (C - (C * pct) / 100).toFixed(2));
+  document.getElementById('ringPct').innerText = pct + '%';
+
+  const feed = document.getElementById('feed');
+  const recentes = tarefas.slice().reverse().slice(0, 6);
+  if (recentes.length === 0){
+    feed.innerHTML = '<div class="empty"><i class="ti ti-inbox"></i>Sem tarefas</div>';
+  } else {
+    feed.innerHTML = recentes.map((t, i) => {
+      const cls = t.status === 'A FAZER' ? 'afazer' : t.status === 'FAZENDO' ? 'fazendo' : 'feito';
+      return `<div class="feed-item">
+        <div class="feed-num">${String(i + 1).padStart(2, '0')}</div>
+        <div class="feed-dot ${cls}"></div>
+        <div class="feed-body">
+          <div class="feed-titulo">${esc(t.titulo)}</div>
+          <div class="feed-meta">${rotuloStatus(t.status)}${t.descricao ? ' · ' + esc(t.descricao).substring(0, 60) : ''}</div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  bindDrag();
+}
+
+function rotuloStatus(s){
+  if (s === 'A FAZER') return 'A fazer';
+  if (s === 'FAZENDO') return 'Fazendo';
+  return 'Feito';
+}
+
+function renderPager(st, totalItens, totalPag){
+  const el = document.getElementById('pager' + keyOf(st));
+  if (!el) return;
+
+  if (totalItens === 0){ el.classList.add('hidden'); el.innerHTML = ''; return; }
+  el.classList.remove('hidden');
+
+  const atual = paginas[st];
+  let inicio = Math.max(1, atual - 2);
+  let fim = Math.min(totalPag, inicio + 4);
+  inicio = Math.max(1, fim - 4);
+
+  const botao = (num) => `<button class="pager-btn ${num === atual ? 'active' : ''}" onclick="irPagina('${st}', ${num})">${num}</button>`;
+
+  let html = '';
+  html += `<button class="pager-btn nav" ${atual === 1 ? 'disabled' : ''} onclick="irPagina('${st}', ${atual - 1})" title="Anterior">‹</button>`;
+  for (let i = inicio; i <= fim; i++) html += botao(i);
+  html += `<button class="pager-btn nav" ${atual === totalPag ? 'disabled' : ''} onclick="irPagina('${st}', ${atual + 1})" title="Próxima">›</button>`;
+  el.innerHTML = html;
+}
+
+function irPagina(st, num){
+  paginas[st] = num;
+  render();
+  const col = document.getElementById('col' + keyOf(st));
+  if (col) col.scrollIntoView({ behavior:'smooth', block:'nearest' });
+}
+
+function cardHTML(t){
+  return `<div class="card" draggable="true"
+              data-linha="${t.linha}"
+              data-status="${t.status}"
+              data-prio="${t.prioridade}">
+    <div class="card-top">
+      <span class="card-tag ${t.prioridade}">${t.prioridade}</span>
+    </div>
+    <h4 class="card-title">${esc(t.titulo)}</h4>
+    ${t.descricao ? `<p class="card-desc">${esc(t.descricao)}</p>` : ''}
+    <div class="card-actions">
+      <button class="card-act" onclick="abrirEdicao(${t.linha})"><i class="ti ti-edit"></i> Editar</button>
+      <button class="card-act danger" onclick="confirmarExcluir(${t.linha})" title="Excluir"><i class="ti ti-trash"></i></button>
+    </div>
+  </div>`;
+}
+
+function calcularScroll(e){
+  const y = e.clientY;
+
+  let vy = 0;
+  if (y < SCROLL_ZONE) {
+    vy = -Math.round(((SCROLL_ZONE - y) / SCROLL_ZONE) * SCROLL_MAX);
+  } else if (y > window.innerHeight - SCROLL_ZONE) {
+    const dist = y - (window.innerHeight - SCROLL_ZONE);
+    vy = Math.round((dist / SCROLL_ZONE) * SCROLL_MAX);
+  }
+  scrollSpeed.y = vy;
+
+  let colEl = null, colVy = 0;
+  const target = document.elementFromPoint(e.clientX, e.clientY);
+  if (target) {
+    const col = target.closest('.col');
+    if (col) {
+      const rect = col.getBoundingClientRect();
+      const temScroll = col.scrollHeight > col.clientHeight + 2;
+      if (temScroll) {
+        if (y < rect.top + 80) {
+          colVy = -Math.round(((rect.top + 80 - y) / 80) * SCROLL_MAX);
+        } else if (y > rect.bottom - 80) {
+          colVy = Math.round(((y - (rect.bottom - 80)) / 80) * SCROLL_MAX);
+        }
+        if (colVy !== 0) colEl = col;
+      }
+    }
+  }
+  scrollSpeed.colEl = colEl;
+  scrollSpeed.colSpeed = colVy;
+
+  if (vy !== 0 || colVy !== 0) { iniciarAutoScroll(); } else { pararAutoScroll(); }
+}
+
+function iniciarAutoScroll(){
+  if (autoScrollRAF) return;
+  const tick = () => {
+    if (scrollSpeed.y !== 0) window.scrollBy(0, scrollSpeed.y);
+    if (scrollSpeed.colEl && scrollSpeed.colSpeed !== 0) scrollSpeed.colEl.scrollTop += scrollSpeed.colSpeed;
+    if (scrollSpeed.y !== 0 || scrollSpeed.colSpeed !== 0) autoScrollRAF = requestAnimationFrame(tick);
+    else autoScrollRAF = null;
+  };
+  autoScrollRAF = requestAnimationFrame(tick);
+}
+
+function pararAutoScroll(){
+  scrollSpeed.y = 0;
+  scrollSpeed.colEl = null;
+  scrollSpeed.colSpeed = 0;
+  if (autoScrollRAF) { cancelAnimationFrame(autoScrollRAF); autoScrollRAF = null; }
+}
+
+function bindDrag(){
+  document.querySelectorAll('.card').forEach(c => {
+    c.addEventListener('dragstart', e => {
+      cardArrastado = c;
+      c.classList.add('dragging');
+      try { e.dataTransfer.setData('text/plain', c.dataset.linha); } catch(_){}
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    c.addEventListener('dragend', () => {
+      if (cardArrastado) cardArrastado.classList.remove('dragging');
+      document.querySelectorAll('.col').forEach(col => col.classList.remove('dragover'));
+      cardArrastado = null;
+      pararAutoScroll();
+    });
+    c.addEventListener('drag', calcularScroll);
+  });
+
+  document.querySelectorAll('.col').forEach(col => {
+    col.addEventListener('dragover', e => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      col.classList.add('dragover');
+      calcularScroll(e);
+    });
+    col.addEventListener('dragleave', e => {
+      if (!col.contains(e.relatedTarget)) col.classList.remove('dragover');
+    });
+    col.addEventListener('drop', e => {
+      e.preventDefault();
+      col.classList.remove('dragover');
+      pararAutoScroll();
+      if (!cardArrastado) return;
+      const novoStatus = col.dataset.status;
+      const linha = parseInt(cardArrastado.dataset.linha, 10);
+
+      const t = tarefas.find(x => x.linha === linha);
+      if (t) t.status = novoStatus;
+      render();
+
+      const listaDestino = tarefas.filter(x => x.status === novoStatus).map(x => x.linha);
+      google.script.run
+        .withSuccessHandler(res => {
+          if (!res || !res.sucesso) { toast('Erro: ' + ((res && res.erro) || '?'), 'error'); carregar(); }
+        })
+        .withFailureHandler(err => { toast('Falha: ' + err, 'error'); carregar(); })
+        .salvarOrdem(novoStatus, listaDestino);
+    });
+  });
+}
+
+function abrirNovo(status){
+  modalLinha = null;
+  document.getElementById('modalTitulo').innerText = 'Nova tarefa';
+  document.getElementById('modalIcon').className = 'ti ti-plus';
+  document.getElementById('fTitulo').value = '';
+  document.getElementById('fDesc').value = '';
+  document.getElementById('fStatus').value = status || 'A FAZER';
+  document.getElementById('fPrio').value = 'MEDIA';
+  document.getElementById('modalBg').classList.add('show');
+  setTimeout(() => document.getElementById('fTitulo').focus(), 100);
+}
+
+function abrirEdicao(linha){
+  const t = tarefas.find(x => x.linha === linha);
+  if (!t) return;
+  modalLinha = linha;
+  document.getElementById('modalTitulo').innerText = 'Editar tarefa';
+  document.getElementById('modalIcon').className = 'ti ti-edit';
+  document.getElementById('fTitulo').value = t.titulo;
+  document.getElementById('fDesc').value = t.descricao;
+  document.getElementById('fStatus').value = t.status;
+  document.getElementById('fPrio').value = t.prioridade;
+  document.getElementById('modalBg').classList.add('show');
+}
+
+function fecharModal(){
+  document.getElementById('modalBg').classList.remove('show');
+}
+
+function salvar(){
+  const titulo = document.getElementById('fTitulo').value.trim();
+  const desc = document.getElementById('fDesc').value.trim();
+  const status = document.getElementById('fStatus').value;
+  const prio = document.getElementById('fPrio').value;
+
+  if (!titulo){ toast('Título obrigatório.', 'error'); return; }
+
+  const btn = document.getElementById('btnSalvar');
+  btn.disabled = true;
+
+  if (modalLinha === null){
+    google.script.run
+      .withSuccessHandler(res => {
+        btn.disabled = false;
+        if (!res || !res.sucesso){ toast('Erro: ' + ((res && res.erro) || '?'), 'error'); return; }
+        fecharModal();
+        toast('Tarefa criada!', 'success');
+        paginas[status] = 1;
+        carregar();
+      })
+      .withFailureHandler(err => { btn.disabled = false; toast('Falha: ' + err, 'error'); })
+      .criarTarefa({ titulo, descricao: desc, status, prioridade: prio });
+  } else {
+    google.script.run
+      .withSuccessHandler(res => {
+        btn.disabled = false;
+        if (!res || !res.sucesso){ toast('Erro: ' + ((res && res.erro) || '?'), 'error'); return; }
+        fecharModal();
+        toast('Tarefa atualizada.', 'success');
+        carregar();
+      })
+      .withFailureHandler(err => { btn.disabled = false; toast('Falha: ' + err, 'error'); })
+      .atualizarTarefa(modalLinha, { titulo, descricao: desc, status, prioridade: prio });
+  }
+}
+
+function confirmarExcluir(linha){
+  if (!confirm('Excluir esta tarefa?')) return;
+  google.script.run
+    .withSuccessHandler(res => {
+      if (!res || !res.sucesso){ toast('Erro: ' + ((res && res.erro) || '?'), 'error'); return; }
+      toast('Tarefa excluída.', 'success');
+      carregar();
+    })
+    .withFailureHandler(err => toast('Falha: ' + err, 'error'))
+    .excluirTarefa(linha);
+}
+
+function esc(s){
+  return String(s == null ? '' : s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+function toast(msg, tipo){
+  tipo = tipo || 'info';
+  const wrap = document.getElementById('toasts');
+  const el = document.createElement('div');
+  el.className = 'toast ' + tipo;
+  const icons = { info:'ti-info-circle', success:'ti-circle-check', error:'ti-alert-triangle' };
+  el.innerHTML = '<i class="ti ' + (icons[tipo] || icons.info) + '"></i><span>' + esc(msg) + '</span>';
+  wrap.appendChild(el);
+  setTimeout(() => {
+    el.style.transition = 'opacity .3s, transform .3s';
+    el.style.opacity = '0';
+    el.style.transform = 'translateX(16px)';
+    setTimeout(() => el.remove(), 300);
+  }, 2800);
+}
+
+document.getElementById('modalBg').addEventListener('click', e => {
+  if (e.target.id === 'modalBg') fecharModal();
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') fecharModal();
+  if (e.key === 'Enter' && document.getElementById('modalBg').classList.contains('show')
+      && document.activeElement.id === 'fTitulo'){
+    salvar();
+  }
+});
+
+document.body.classList.add('on-home');
+carregar();
+</script>
+</body>
+</html>
