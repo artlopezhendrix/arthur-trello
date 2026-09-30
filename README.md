@@ -4,7 +4,7 @@ Um kanban pessoal que roda no Google Apps Script. Os dados ficam numa planilha d
 
 ## Demo
 
-[artlopezhendrix.github.io/arthur-trello](https://SEU-USUARIO.github.io/arthur-trello/)
+[artlopezhendrix.github.io/arthur-trello](https://artlopezhendrix.github.io/arthur-trello/)
 
 A demo roda toda no navegador, salvando em localStorage. Dá pra testar sem precisar de conta Google.
 
